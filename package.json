@@ -13,6 +13,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"highland": "^2.13.0",
+		"meow": "^5.0.0",
 		"ramda": "^0.25.0"
 	},
 	"devDependencies": {
