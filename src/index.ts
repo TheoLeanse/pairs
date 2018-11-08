@@ -8,15 +8,19 @@ import {
 
 export const print = console.log;
 
+export const uniquePairs = (names, previous) => {
+	const result = pair(names);
+	return !previous || !hasSameEntry(result, previous)
+		? result
+		: uniquePairs(names, previous);
+};
+
 export const init = async (filename, opts = {}) => {
-	const [previousResult, names] = await Promise.all([
-		getPreviousResult(),
-		splitFile(filename)
+	const [names, previous] = await Promise.all([
+		splitFile(filename),
+		getPreviousResult()
 	]);
-	let result = pair(names);
-	while (previousResult && hasSameEntry(result, previousResult)) {
-		result = pair(names);
-	}
+	const result = uniquePairs(names, previous);
 	print(result);
 	setPreviousResult(result);
 };
