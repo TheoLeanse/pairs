@@ -1,3 +1,18 @@
-import subject from './index';
+import { pair } from './index';
 
-test('index', () => expect(subject).toEqual('bar'));
+test('pair', () => {
+	const toPair = [
+		'andy',
+		'kirsten',
+		'theo',
+		'chris i',
+		'chris f',
+		'steven',
+		'charlotte',
+		'cristina',
+		'dan',
+		'paul'
+	];
+	const result = pair(toPair);
+	expect(result).toHaveLength(5);
+});
