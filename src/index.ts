@@ -1,12 +1,22 @@
 import * as R from 'ramda';
 import shuffle from './lib/shuffle';
-import * as config from '../pairing-config.json';
+import splitFile from './lib/split-file';
 
 export const pair = R.compose(
 	R.splitEvery(2),
 	shuffle
 );
 
-export default () => pair(config.in);
+export const pairFromFile = R.compose(
+	pair,
+	splitFile
+);
 
-console.log(pair(config.in));
+const init = async () => {
+	R.compose(
+		console.log,
+		pair
+	)(await splitFile('./names.txt'));
+};
+
+init();
