@@ -1,4 +1,4 @@
-import pair from '.';
+import pair, { rotatePairs } from '.';
 
 test('pair', () => {
 	const toPair = [
@@ -24,4 +24,18 @@ test('pair', () => {
 	];
 	const result = pair(toPair);
 	expect(result).toHaveLength(10);
+});
+
+test('rotate', () => {
+	const prev = [
+		['Adams, Henry', 'Abbey, Edward'],
+		['Addams, Jane', 'Adams, Scott'],
+		['Abrams, Creighton', 'Ace, Joan']
+	];
+	const result = rotatePairs(prev);
+	expect(result).toEqual([
+		['Adams, Henry', 'Ace, Joan'],
+		['Addams, Jane', 'Abbey, Edward'],
+		['Abrams, Creighton', 'Adams, Scott']
+	]);
 });

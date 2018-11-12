@@ -12,10 +12,15 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"data.maybe": "^1.2.3",
+		"fluture": "^10.2.0",
 		"fs-extra": "^7.0.1",
 		"highland": "^2.13.0",
+		"immutable": "^4.0.0-rc.12",
+		"immutable-ext": "^1.1.5",
 		"meow": "^5.0.0",
-		"ramda": "^0.25.0"
+		"ramda": "^0.25.0",
+		"sanctuary": "^0.15.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^23.3.9",

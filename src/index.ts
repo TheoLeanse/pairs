@@ -1,26 +1,24 @@
-import splitFile from './lib/split-file';
-import pair from './lib/random-pair';
-import hasSameEntry from './lib/has-same-entry';
-import {
-	getPreviousResult,
-	setPreviousResult
-} from './lib/manage-result-files';
+import Future from 'fluture';
+import { names } from './lib/split-file';
+import { randomPairs, rotatePairs } from './lib/random-pair';
+import { previousResult, setPreviousResult } from './lib/manage-result-files';
 
-export const print = console.log;
-
-export const uniquePairs = (names, previous) => {
-	const result = pair(names);
-	return !previous || !hasSameEntry(result, previous)
-		? result
-		: uniquePairs(names, previous);
+export const print = x => {
+	console.log(x);
+	return x;
 };
 
-export const init = async (filename, opts = {}) => {
-	const [names, previous] = await Promise.all([
-		splitFile(filename),
-		getPreviousResult()
-	]);
-	const result = uniquePairs(names, previous);
-	print(result);
-	setPreviousResult(result);
+export const uniquePairs = names => previousResult => {
+	const pairs = previousResult.getOrElse(randomPairs(names));
+	return rotatePairs(pairs);
 };
+
+Future.of(uniquePairs)
+	.ap(names)
+	.ap(previousResult)
+	.map(print)
+	.map(setPreviousResult)
+	.fork(
+		err => print(`Something went wrong: ${err}`),
+		result => print(`Success! ${result}`)
+	);
