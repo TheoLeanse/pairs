@@ -1,24 +1,19 @@
 import Future from 'fluture';
+import { List } from 'immutable-ext';
 import { names } from './lib/split-file';
 import { randomPairs, rotatePairs } from './lib/random-pair';
 import { previousResult, setPreviousResult } from './lib/manage-result-files';
 
-export const print = x => {
-	console.log(x);
-	return x;
-};
+const log = console.log as any;
 
-export const uniquePairs = names => previousResult => {
-	const pairs = previousResult.getOrElse(randomPairs(names));
-	return rotatePairs(pairs);
-};
+export const print = x => log(x) || x;
+
+export const uniquePairs = names => previousResult =>
+	List.of(previousResult.getOrElse(randomPairs(names))).foldMap(rotatePairs);
 
 Future.of(uniquePairs)
 	.ap(names)
 	.ap(previousResult)
 	.map(print)
 	.map(setPreviousResult)
-	.fork(
-		err => print(`Something went wrong: ${err}`),
-		result => print(`Success! ${result}`)
-	);
+	.fork(err => print(`Something went wrong: ${err}`), _ => print(`Success!`));
